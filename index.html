@@ -71,6 +71,15 @@ button:focus-visible{outline:3px solid #ffce62;outline-offset:3px}
 .v7-dossier strong{font-size:28px;color:#fff}
 .v7-report-debrief{border:1px solid #cf9754;background:#13283a;padding:16px;margin-top:20px;border-radius:10px}
 @media(max-width:720px){.v7-dash-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.v7-dossier,.v7-events{grid-template-columns:1fr}.v7-dialog{grid-template-columns:70px 1fr}.v7-dialog img{width:70px;height:86px}.v7-skillbar span{min-width:90px}}
+</style><style id="aquaticc-header-rebrand">
+#top .brand{display:flex;align-items:center;gap:15px;min-width:290px;cursor:pointer;position:relative}
+#top .brand-mark{width:63px;height:63px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:12px;letter-spacing:normal;background:linear-gradient(150deg,#f9ba5c,#bc6b36 54%,#562129);border:2px solid #eac08a;box-shadow:0 0 0 3px #0c2030,inset 0 1px 0 #ffe4a1,0 0 21px #e34f4233;position:relative;overflow:hidden}
+#top .brand-mark svg{width:49px;height:49px;display:block;filter:drop-shadow(0 2px 1px #10283d88)}
+#top .brand-name{display:block;color:#f3f7fa;font-family:Impact,"Arial Black",sans-serif;font-size:clamp(22px,2.35vw,31px);font-weight:900;letter-spacing:2.6px;line-height:1;text-shadow:2px 2px 0 #812d39}
+#top .brand-sub{display:block;color:#f8c177;font-weight:900;letter-spacing:2.2px;font-size:10px;margin-top:8px}
+#top .brand-under{height:3px;width:100%;max-width:220px;background:linear-gradient(90deg,#f04850,#e6ac53,transparent);margin-top:7px}
+#top .brand:hover .brand-mark{box-shadow:0 0 0 3px #0c2030,0 0 22px #ef6f5366}
+@media(max-width:730px){#top .brand{min-width:0}#top .brand-mark{width:51px;height:51px}#top .brand-mark svg{width:39px;height:39px}#top .brand-name{font-size:23px;letter-spacing:1.6px}#top .brand-sub{font-size:8px;letter-spacing:1px}}
 </style></head><body><header id="top"></header><div class="layout"><aside id="left"></aside><main id="content"></main></div><footer>AQUATICC · BTS ATI · Les schémas originaux font foi. <button onclick="resetGame()">Réinitialiser le TP</button></footer><div id="docModal" class="modal" aria-hidden="true" role="dialog" aria-label="Visionneuse des documents"><div class="modalpanel"><div class="modalhead"><strong id="docModalTitle"></strong><div class="modaltools"><label>Zoom <input id="zoomRange" type="range" min="60" max="260" value="100" step="10"></label><button onclick="closeDoc()">✕ Fermer</button></div></div><div class="viewer"><img id="docImg" alt="Document technique AQUATICC"></div><p>Les documents photographiés peuvent contenir des passages illisibles : signaler « non confirmé » et proposer une vérification.</p></div></div><script>window.AQUATICC_ASSETS={};</script>
 <script>
 const assetUrl=(path)=>window.AQUATICC_ASSETS?.[path]||path;
@@ -431,4 +440,14 @@ const v7OldHome=homePage;
 homePage=function(){return v7OldHome()+v7Journal()};
 const v7OldLeft=left;
 left=function(){return v7OldLeft()+'<div style="padding:10px">'+v7Dialogue('tom','Journal en cours : '+v2.opened.length+' pièces ouvertes, '+miniWon()+' défis résolus. Continuez à croiser les sources.')+'</div>'};
-</script><script src="v7-pdf.js"></script></body></html>
+</script><script src="v7-pdf.js"></script><script>
+// Refonte identitaire du bandeau - AQUATICC Dossier Rouge.
+const aquaticcHeaderOld=header;
+header=function(){
+ const original=aquaticcHeaderOld();
+ const mark='<div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M29 4C21 19 11 29 11 42a21 21 0 0 0 42 0C53 29 43 19 35 4Z" fill="#0c2e48" stroke="#f3d194" stroke-width="2.5"/><path d="M36 11 19 35h13l-6 21 20-29H33Z" fill="#ffd266" stroke="#fff2c5" stroke-width="1.4"/><path d="M14 45c6 5 11 6 18 6" fill="none" stroke="#56cce0" stroke-width="2.6" stroke-linecap="round"/></svg></div>';
+ const newBrand='<div class="brand" role="button" tabindex="0" aria-label="Retour à l accueil AQUATICC" onclick="state.tab=\'home\';render()" onkeydown="if(event.key===\'Enter\' || event.key===\' \'){event.preventDefault();state.tab=\'home\';render()}">'+mark+'<div><strong class="brand-name">AQUATICC</strong><span class="brand-sub">DOSSIER ROUGE · BTS ATI</span><div class="brand-under"></div></div></div>';
+ return original.replace(/<div class="brand"[^>]*>[\s\S]*?<\/div><div class="progresswrap">/,newBrand+'<div class="progresswrap">');
+};
+render();
+</script></body></html>

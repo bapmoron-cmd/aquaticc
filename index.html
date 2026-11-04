@@ -80,7 +80,7 @@ button:focus-visible{outline:3px solid #ffce62;outline-offset:3px}
 #top .brand-under{height:3px;width:100%;max-width:220px;background:linear-gradient(90deg,#f04850,#e6ac53,transparent);margin-top:7px}
 #top .brand:hover .brand-mark{box-shadow:0 0 0 3px #0c2030,0 0 22px #ef6f5366}
 @media(max-width:730px){#top .brand{min-width:0}#top .brand-mark{width:51px;height:51px}#top .brand-mark svg{width:39px;height:39px}#top .brand-name{font-size:23px;letter-spacing:1.6px}#top .brand-sub{font-size:8px;letter-spacing:1px}}
-</style></head><body><header id="top"></header><div class="layout"><aside id="left"></aside><main id="content"></main></div><footer>AQUATICC · BTS ATI · Les schémas originaux font foi. <button onclick="resetGame()">Réinitialiser le TP</button></footer><div id="docModal" class="modal" aria-hidden="true" role="dialog" aria-label="Visionneuse des documents"><div class="modalpanel"><div class="modalhead"><strong id="docModalTitle"></strong><div class="modaltools"><label>Zoom <input id="zoomRange" type="range" min="60" max="260" value="100" step="10"></label><button onclick="closeDoc()">✕ Fermer</button></div></div><div class="viewer"><img id="docImg" alt="Document technique AQUATICC"></div><p>Les documents photographiés peuvent contenir des passages illisibles : signaler « non confirmé » et proposer une vérification.</p></div></div><script>window.AQUATICC_ASSETS={};</script>
+</style><link rel="stylesheet" href="achievements-v8.css"></head><body><header id="top"></header><div class="layout"><aside id="left"></aside><main id="content"></main></div><footer>AQUATICC · BTS ATI · Les schémas originaux font foi. <button onclick="resetGame()">Réinitialiser le TP</button></footer><div id="docModal" class="modal" aria-hidden="true" role="dialog" aria-label="Visionneuse des documents"><div class="modalpanel"><div class="modalhead"><strong id="docModalTitle"></strong><div class="modaltools"><label>Zoom <input id="zoomRange" type="range" min="60" max="260" value="100" step="10"></label><button onclick="closeDoc()">✕ Fermer</button></div></div><div class="viewer"><img id="docImg" alt="Document technique AQUATICC"></div><p>Les documents photographiés peuvent contenir des passages illisibles : signaler « non confirmé » et proposer une vérification.</p></div></div><script>window.AQUATICC_ASSETS={};</script>
 <script>
 const assetUrl=(path)=>window.AQUATICC_ASSETS?.[path]||path;
 const missions=[
@@ -450,4 +450,4 @@ header=function(){
  const begin=original.indexOf('<div class="brand"'); const after=original.indexOf('<div class="progresswrap">',begin); return begin>=0&&after>begin?original.slice(0,begin)+newBrand+original.slice(after):original;
 };
 render();
-</script></body></html>
+</script><script src="achievements-v8.js"></script></body></html>

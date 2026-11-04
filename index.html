@@ -32,6 +32,45 @@ header,.topbar{border-bottom:2px solid #e74950!important;background:linear-gradi
 .doc-preview img{background:#e7ecf2!important}
 button:focus-visible{outline:3px solid #ffce62;outline-offset:3px}
 @media(max-width:700px){.hero{min-height:315px!important}}
+</style><style id="aquaticc-v7-ui">
+.v7-kicker{color:#ed6870;font-size:11px;font-weight:900;letter-spacing:2.5px;text-transform:uppercase}
+.v7-dash{border-radius:13px;padding:22px;margin:20px 0;background:linear-gradient(115deg,#142e46,#0b1a2c);border:1px solid #46738b;box-shadow:0 17px 35px #0008}
+.v7-topline{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.v7-topline h2{margin:5px 0 0;color:#f5be63;font-size:clamp(20px,3vw,31px)}
+.v7-dash-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin:18px 0}
+.v7-stat{padding:16px 11px;border:1px solid #3b6681;background:#091f31;border-radius:9px;text-align:center}
+.v7-stat b{display:block;font-weight:900;font-size:clamp(19px,3vw,30px);color:#f6bf6d}
+.v7-stat small{font-size:11px;color:#b0c9d8}
+.v7-progress{height:11px;background:#142c40;overflow:hidden;border-radius:20px}
+.v7-progress span{display:block;height:100%;background:linear-gradient(90deg,#29b7ca,#f5af57);border-radius:20px}
+.v7-debrief{background:linear-gradient(115deg,#172e43,#0a1b2c);border:1px solid #4c7892;border-left:5px solid #f2bd67;margin:28px 0;padding:19px;border-radius:9px}
+.v7-debrief.warning{border-left-color:#ec5361}
+.v7-debrief h3,.v7-journal h3{color:#f9c36d}
+.v7-dialog{display:grid;grid-template-columns:105px 1fr;align-items:center;gap:17px;background:#081b2c;border:1px solid #2e627d;border-radius:8px;padding:14px;margin:12px 0}
+.v7-dialog img{width:105px;height:116px;object-fit:cover;border:2px solid #5f9fbb;border-radius:7px}
+.v7-dialog .speaker{font-size:18px;font-weight:800;color:#ffca72}
+.v7-dialog p{margin:5px 0;color:#d8e9f7}
+.v7-skillbar{display:flex;align-items:center;gap:10px;margin:9px 0;color:#b8d0e0}
+.v7-skillbar span{min-width:160px;font-size:12px}
+.v7-skillbar .track{flex:1;height:10px;background:#102a3c;border-radius:30px;overflow:hidden}
+.v7-skillbar .track i{display:block;height:100%;background:linear-gradient(90deg,#2ec9be,#edb361);border-radius:30px}
+.v7-skillbar b{width:52px;text-align:right}
+.v7-journal{margin:20px 0;padding:18px;border:1px solid #476b83;background:#0d2131;border-radius:10px}
+.v7-events{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.v7-event{border-left:3px solid #2ec6b9;background:#102e43;padding:12px;font-size:13px;line-height:1.6}
+.v7-event.pending{border-left-color:#bd7b59}
+.v7-advice{border:1px solid #3f697e;border-radius:8px;background:#102c3c;padding:15px;margin:15px 0}
+.v7-buttons{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.v7-buttons button{background:#dba354;color:#161820;font-weight:800}
+.v7-pill{display:inline-block;color:#e8c58c;border:1px solid #9d6b4c;background:#3b2b27;border-radius:40px;padding:5px 12px;font-size:12px}
+.v7-boss{background:linear-gradient(130deg,#102e43,#321f31);border:1px solid #de5961;border-top:5px solid #e95661;padding:24px;margin:20px 0;border-radius:12px}
+.v7-boss h2{color:#f9c66e;font-size:clamp(25px,3vw,34px);margin:12px 0}
+.v7-dossier{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:20px 0}
+.v7-dossier>div{background:#0b2234;border:1px solid #4c7290;padding:17px;border-radius:9px}
+.v7-dossier h3{margin:0 0 8px;color:#ffcf8a}
+.v7-dossier strong{font-size:28px;color:#fff}
+.v7-report-debrief{border:1px solid #cf9754;background:#13283a;padding:16px;margin-top:20px;border-radius:10px}
+@media(max-width:720px){.v7-dash-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.v7-dossier,.v7-events{grid-template-columns:1fr}.v7-dialog{grid-template-columns:70px 1fr}.v7-dialog img{width:70px;height:86px}.v7-skillbar span{min-width:90px}}
 </style></head><body><header id="top"></header><div class="layout"><aside id="left"></aside><main id="content"></main></div><footer>AQUATICC · BTS ATI · Les schémas originaux font foi. <button onclick="resetGame()">Réinitialiser le TP</button></footer><div id="docModal" class="modal" aria-hidden="true" role="dialog" aria-label="Visionneuse des documents"><div class="modalpanel"><div class="modalhead"><strong id="docModalTitle"></strong><div class="modaltools"><label>Zoom <input id="zoomRange" type="range" min="60" max="260" value="100" step="10"></label><button onclick="closeDoc()">✕ Fermer</button></div></div><div class="viewer"><img id="docImg" alt="Document technique AQUATICC"></div><p>Les documents photographiés peuvent contenir des passages illisibles : signaler « non confirmé » et proposer une vérification.</p></div></div><script>window.AQUATICC_ASSETS={};</script>
 <script>
 const assetUrl=(path)=>window.AQUATICC_ASSETS?.[path]||path;
@@ -336,4 +375,60 @@ async function downloadEvaluationPDF(){
  }catch(e){alert('Erreur lors de la génération du PDF : '+e.message)}
  finally{buttons.forEach(b=>{b.disabled=false;b.textContent=b.dataset.oldText||'Exporter le PDF'})}
 }
+</script><script>
+/* V7 — synthèses scénarisées et journal documentaire. */
+const v7Lessons=[
+ {title:'Comprendre la fonction globale',speaker:'tom',good:'Tu as identifié la fonction de transfert d’eau. Continue en reliant chaque élément visible à l’actigramme D02.',partial:'Tu repères des organes, mais l’objectif général doit être formulé plus précisément à partir de D02.',lesson:'Une photo montre des organes ; l’actigramme indique la fonction globale. Sans preuve, aucune séquence de transfert détaillée ne peut être certifiée.',next:'Identifier les repères dans les archives.'},
+ {title:'Identifier et croiser les composants',speaker:'elise',good:'Les repères se retrouvent sur plusieurs folios. Tu peux maintenant reconstruire des chemins fonctionnels.',partial:'Les familles d’organes demandent encore une vérification : KM commute, F protège et M est le récepteur.',lesson:'Pour Q, KM, F, M, KA ou H : noter le repère, le rôle, le folio et le degré de certitude. Les nomenclatures complètent les schémas.',next:'Retracer la puissance des deux pompes.'},
+ {title:'Retrouver les chaînes d’énergie',speaker:'elise',good:'Tu distingues bien P1 et P2. Le prochain défi est de comprendre qui commande et signale leur marche.',partial:'Reprends D04 et distingue coupure, contacteur, protection moteur et récepteur.',lesson:'P1 : alimentation triphasée → Q1 → KM1 → F1 → M1. P2 : alimentation monophasée → Q2 → KM2 → F2 → M2. Confirmer les trajets sur D04.',next:'Croiser commande et signalisation.'},
+ {title:'Comprendre commande et signalisation',speaker:'tom',good:'Tu as relié commandes, bobines et voyants sans inventer les liaisons non lisibles.',partial:'On ne peut pas déduire toutes les conditions de commande en lisant seulement D04 ou un voyant.',lesson:'Puissance D04 : énergie ; commande D05 : conditions d’activation ; signalisation D06 : retour d’état. Le cycle automatique exact ne doit pas être inventé si D05 est illisible.',next:'Mettre ces connaissances en pratique sur les incidents.'},
+ {title:'Analyser trois situations sans surinterpréter',speaker:'leroy',good:'Tes hypothèses restent prudentes et vérifiables. C’est la posture attendue d’un technicien.',partial:'Ne transforme pas un voyant de défaut en diagnostic mécanique certain : réexamine D04, D05, D06 et D10.',lesson:'Situation A : D04 puis D05 et D06. Situation B : F2, H6 et valeurs D10/notice. Situation C : sélecteurs, capteurs, relais et contacteurs D05, à recouper D06.',next:'Rédiger et défendre le rapport final.'},
+ {title:'Rendre compte de l’enquête',speaker:'leroy',good:'Tu as bouclé l’enquête. Le rapport doit encore être évalué sur la qualité des preuves et de la rédaction.',partial:'Le dossier est presque terminé : organise les faits, déductions et points à confirmer.',lesson:'Le compte rendu doit comporter fonction globale, architecture, fonctionnement, analyse des trois situations et incertitudes. Les analyses rédigées restent soumises au formateur.',next:'Télécharger le bilan PDF.'}
+];
+function v7Stats(m){
+ const qs=questions.filter(x=>x.m===m),mn=challenges.map((x,i)=>({...x,idx:i})).filter(x=>x.m===m);
+ const qcount=qs.filter(qdone).length,mini=mn.filter(x=>v2.mini[x.idx]?.ok).length;
+ const docs=[...new Set(qs.flatMap(x=>x.docs))];
+ const opened=docs.filter(d=>v2.opened.includes(d)).length;
+ const choice=qs.filter(x=>x.kind==='choice'),choiceCorrect=choice.filter(x=>state.results[x.id]?.checked&&state.results[x.id]?.answer===x.answer).length;
+ return {qcount,qtotal:qs.length,mini,mtotal:mn.length,opened,docs,choiceCorrect,choiceTotal:choice.length,
+ complete:qcount===qs.length&&mini===mn.length,
+ pct:Math.round((qcount+mini)/(qs.length+mn.length)*100)}
+}
+function v7Dialogue(key,text){
+ const c=crew[key]||crew.elise;
+ return '<div class="v7-dialog"><img src="'+assetUrl(c.src)+'" alt="Portrait de '+esc(c.name)+'"><div><span class="v7-kicker">'+esc(c.role)+'</span><div class="speaker">'+esc(c.name)+'</div><p>'+esc(text)+'</p></div></div>';
+}
+function v7MissionDebrief(m){
+ const z=v7Stats(m),l=v7Lessons[m],tone=z.pct>=80?'good':z.pct>=40?'medium':'low';
+ const role=z.pct<40?'ombre':z.pct>=80?l.speaker:'elise';
+ const speech=z.pct<40?'Tu as encore quelques dossiers à ouvrir. Même mon plan de sabotage est mieux documenté !':z.pct>=80?l.good:l.partial;
+ const verdict=z.complete?'Mission complète — à justifier dans le rapport':z.pct>=65?'Bien avancée — complète les preuves':'Enquête en cours';
+ return '<section class="v7-debrief '+(z.pct<40?'warning':'')+'"><div class="v7-kicker">FIN DE CHAPITRE 0'+(m+1)+' · DÉBRIEF</div><h3>'+esc(l.title)+'</h3><span class="v7-pill">'+verdict+'</span><div class="v7-dash-grid"><div class="v7-stat"><b>'+z.qcount+'/'+z.qtotal+'</b><small>Questions du TP</small></div><div class="v7-stat"><b>'+z.mini+'/'+z.mtotal+'</b><small>Mini-défis réussis</small></div><div class="v7-stat"><b>'+z.opened+'/'+z.docs.length+'</b><small>Pièces utiles ouvertes</small></div><div class="v7-stat"><b>'+z.pct+' %</b><small>Avancement</small></div></div>'+v7Dialogue(role,speech)+(z.pct<40?v7Dialogue('elise',l.partial):'')+'<div class="v7-advice"><strong>📚 Ce qu’il faut retenir</strong><p>'+esc(l.lesson)+'</p><strong>Prochaine étape :</strong> '+esc(l.next)+'</div><div class="v7-buttons"><button onclick="state.tab=\'archives\';render()">Revoir les documents</button><button onclick="setMission('+Math.min(m+1,5)+')">'+(m===5?'Relire la mission finale':'Mission suivante')+'</button><button onclick="state.tab=\'report\';render()">Bilan général</button></div></section>';
+}
+function v7Journal(){
+ const recent=v2.opened.slice(-5).reverse();
+ const done=missions.map((x,i)=>({i,x,st:v7Stats(i)}));
+ return '<section class="v7-journal"><div class="v7-kicker">JOURNAL DES OPÉRATIONS</div><h3>Ce que votre binôme a établi</h3><div class="v7-events">'+done.map(d=>'<div class="v7-event '+(d.st.complete?'':'pending')+'"><strong>MISSION 0'+(d.i+1)+' — '+esc(d.x.title)+'</strong><br>'+d.st.qcount+'/'+d.st.qtotal+' questions · '+d.st.mini+'/'+d.st.mtotal+' défis<br><small>'+(d.st.complete?'✓ Activités terminées':'À poursuivre, conclusions à vérifier')+'</small></div>').join('')+'</div><p class="micro">Pièces récemment consultées : '+(recent.length?recent.join(' · '):'aucune encore')+'. Les consultations sont enregistrées sur ce navigateur uniquement.</p></section>';
+}
+function v7Dash(){
+ const completed=questions.filter(qdone).length,mini=miniWon();
+ const official=officialV5(),o=objectiveV5();
+ const pct=Math.round((completed+mini)/(questions.length+challenges.length)*100);
+ return '<section class="v7-dash"><div class="v7-topline"><div><div class="v7-kicker">TABLEAU DE BORD · CELLULE AQUATICC</div><h2>Bilan de votre enquête</h2></div><span class="v7-pill">'+esc(grade())+'</span></div><div class="v7-dash-grid"><div class="v7-stat"><b>'+scoreXP()+'</b><small>XP obtenus</small></div><div class="v7-stat"><b>'+completed+'/27</b><small>Questions terminées</small></div><div class="v7-stat"><b>'+mini+'/24</b><small>Défis validés</small></div><div class="v7-stat"><b>'+(official.complete?official.score.toFixed(1)+'/20':'— /20')+'</b><small>Note formateur</small></div></div><div class="v7-progress"><span style="width:'+pct+'%"></span></div><p class="micro">Progression des activités : '+pct+' %. Score automatique indicatif : '+o.score.toFixed(1)+'/20. Les notes et les XP sont distincts.</p></section>';
+}
+function v7Final(){
+ const f=officialV5(),o=objectiveV5(),fb=feedbackV5();
+ const speaker=f.complete?(f.score>=14?'leroy':f.score>=10?'elise':'ombre'):(o.score>=14?'elise':o.score>=10?'tom':'ombre');
+ const speech=f.complete?(f.score>=14?'Dossier validé. Votre travail montre une bonne maîtrise de la méthode documentaire. Continuez à préciser ce qui reste non confirmé.':f.score>=10?'Votre démarche est sur la bonne voie. Reprenez vos justifications et les pièces indiquées ci-dessous.':'Vous n’allez quand même pas me rendre ce dossier sans revoir vos preuves ! Vos points faibles sont identifiés ; repartez des folios.'):(o.score>=14?'Beau résultat sur les activités objectives. Je ne peux cependant pas certifier la qualité des analyses rédigées : le formateur doit les relire.':o.score>=10?'Tu progresses. Reprends les pièces où tes réponses sont incomplètes, puis fais relire ton rapport.':'Ton score ne reflète pas encore une lecture fiable des documents. Nous allons revoir la méthode ensemble.');
+ return '<section class="v7-boss"><div class="v7-kicker">DERNIÈRE TRANSMISSION / RAPPORT D’EXPERTISE</div><h2>Mission terminée ? Place au débrief.</h2><div class="v7-dossier"><div><h3>Score automatique indicatif</h3><strong>'+o.score.toFixed(1).replace('.',',')+' / 20</strong><p>'+o.correct+'/'+o.total+' réponses objectives acquises</p></div><div><h3>Évaluation du formateur</h3><strong>'+(f.complete?f.score.toFixed(1).replace('.',',')+' / 20':'En attente')+'</strong><p>Qualité des analyses et du compte rendu</p></div></div>'+v7Dialogue(speaker,speech)+(speaker==='ombre'?v7Dialogue('elise',fb.message):'')+'<div class="v7-advice"><strong>Prochains objectifs d’apprentissage</strong><ul>'+(fb.advice.length?fb.advice.map(a=>'<li>'+esc(a.t)+' — '+esc(a.advice)+'</li>').join(''):'<li>Citer une pièce Dxx, un repère et un niveau de certitude pour chaque affirmation.</li>')+'</ul></div></section>';
+}
+const v7OldMission=missionPage;
+missionPage=function(){return v7OldMission()+v7MissionDebrief(state.mission)};
+const v7OldReport=reportPage;
+reportPage=function(){return v7Dash()+v7Final()+v7OldReport()+v7Journal()};
+const v7OldHome=homePage;
+homePage=function(){return v7OldHome()+v7Journal()};
+const v7OldLeft=left;
+left=function(){return v7OldLeft()+'<div style="padding:10px">'+v7Dialogue('tom','Journal en cours : '+v2.opened.length+' pièces ouvertes, '+miniWon()+' défis résolus. Continuez à croiser les sources.')+'</div>'};
 </script></body></html>

@@ -112,7 +112,7 @@ const componentNames=['Q1','Q2','KM1','KM2','F1','F2','M1','M2','KA3','KA4','KA5
 function components(){let savedComp=state.report.components||{};return `<div class="breadcrumb">DOSSIER DE TRAVAIL</div><h1>Fiche de relevé des composants</h1><p class="lead">Reprend la tâche documentaire du TP. Identifiez chaque élément à partir des vrais documents et conservez la preuve. Exportable avec le rapport.</p><div class="tablewrap"><table><thead><tr><th>Repère</th><th>Fonction / rôle</th><th>Preuve / document</th></tr></thead><tbody>${componentNames.map(c=>`<tr><th>${c}</th><td><input aria-label="Fonction ${c}" data-comp="${c}" data-part="role" value="${esc(savedComp[c]?.role||'')}" onchange="saveComp(this)"></td><td><input aria-label="Preuve ${c}" data-comp="${c}" data-part="proof" value="${esc(savedComp[c]?.proof||'')}" onchange="saveComp(this)"></td></tr>`).join('')}</tbody></table></div>`}
 function saveComp(el){state.report.components??={};state.report.components[el.dataset.comp]??={};state.report.components[el.dataset.comp][el.dataset.part]=el.value;store()}
 const reportFields=[['objet','1. Objet de l’étude','Machine, fonction et documents mobilisés.'],['architecture','2. Architecture de l’installation','Chaînes d’énergie P1/P2, organes de commande et signalisation.'],['fonctionnement','3. Fonctionnement reconstitué','États, transitions, conditions, sources Dxx et degrés de certitude.'],['incidents','4. Analyse des trois situations','Démarches documentaires et hypothèses ouvertes pour A, B et C.'],['incertitudes','5. Incertitudes et vérifications','Mentions illisibles, preuves manquantes et vérifications nécessaires.']];
-function reportPage(){return `<div class="breadcrumb">FIN DE MISSION · LIVRABLE</div><h1>Rapport d’expertise</h1><p class="lead">Ce rapport reprend les cinq rubriques du compte rendu officiel. Il n’est pas corrigé automatiquement : votre formateur pourra contrôler la qualité des justifications.</p><label class="fieldlabel">Noms des deux experts</label><input value="${esc(state.names)}" placeholder="Prénom NOM / Prénom NOM" onchange="state.names=this.value;store()"><div class="scoregrid"><div><b>${progress()} / 27</b><span>questions validées / enregistrées</span></div><div><b>${questions.filter(x=>x.kind==='choice'&&state.results[x.id]?.checked&&state.results[x.id]?.answer===x.answer).length} / ${questions.filter(x=>x.kind==='choice').length}</b><span>réponses fermées correctes</span></div><div><b>À vérifier</b><span>analyses techniques par le formateur</span></div></div>${reportFields.map(([key,title,help])=>`<section class="reportsection"><h3>${title}</h3><p class="micro">${help}</p><textarea oninput="state.report['${key}']=this.value;store()" placeholder="Rédigez votre compte rendu...">${esc(state.report[key]||'')}</textarea></section>`).join('')}<div class="actions"><button class="primary" onclick="downloadReport()">↓ Télécharger mon rapport (.txt)</button><button class="secondary" onclick="downloadJSON()">↓ Sauvegarde complète (.json)</button><button class="secondary" onclick="printReport()">⎙ Imprimer / PDF</button></div><p class="micro">Barème formateur : identification et sources /4 ; puissance, commande et signalisation /5 ; analyse fonctionnelle et niveau de preuve /5 ; situations professionnelles /4 ; compte rendu et vocabulaire /2.</p>`}
+function reportPage(){return `<div class="breadcrumb">FIN DE MISSION · LIVRABLE</div><h1>Rapport d’expertise</h1><p class="lead">Ce rapport reprend les cinq rubriques du compte rendu officiel. Il n’est pas corrigé automatiquement : votre formateur pourra contrôler la qualité des justifications.</p><label class="fieldlabel">Noms des deux experts</label><input value="${esc(state.names)}" placeholder="Prénom NOM / Prénom NOM" onchange="state.names=this.value;store()"><div class="scoregrid"><div><b>${progress()} / 27</b><span>questions validées / enregistrées</span></div><div><b>${questions.filter(x=>x.kind==='choice'&&state.results[x.id]?.checked&&state.results[x.id]?.answer===x.answer).length} / ${questions.filter(x=>x.kind==='choice').length}</b><span>réponses fermées correctes</span></div><div><b>À vérifier</b><span>analyses techniques par le formateur</span></div></div>${reportFields.map(([key,title,help])=>`<section class="reportsection"><h3>${title}</h3><p class="micro">${help}</p><textarea oninput="state.report['${key}']=this.value;store()" placeholder="Rédigez votre compte rendu...">${esc(state.report[key]||'')}</textarea></section>`).join('')}<div class="actions"><button class="primary" onclick="downloadEvaluationPDF()">↓ Télécharger le dossier complet (PDF)</button><button class="secondary" onclick="downloadJSON()">↓ Sauvegarde complète (.json)</button><button class="secondary" onclick="printReport()">⎙ Imprimer / PDF</button></div><p class="micro">Barème formateur : identification et sources /4 ; puissance, commande et signalisation /5 ; analyse fonctionnelle et niveau de preuve /5 ; situations professionnelles /4 ; compte rendu et vocabulaire /2.</p>`}
 function dumpText(){let lines=['AQUATICC — OPÉRATION NIVEAU CRITIQUE','BTS ATI — TRAVAIL DOCUMENTAIRE','Binôme : '+state.names,'Date : '+new Date().toLocaleString('fr-FR'),'',...questions.flatMap(x=>{let r=state.results[x.id]||{};return [`Q${x.id}. ${x.title}`,`Question : ${x.prompt}`,`Réponse : ${r.answer||'(non renseignée)'}`,`Preuves : ${r.evidence||'(non renseignées)'}`,`Niveau : ${r.certainty||'(non renseigné)'}`,'']})];for(let [k,title] of reportFields)lines.push(title,state.report[k]||'', '');lines.push('INVENTAIRE');for(let c of componentNames){let r=state.report.components?.[c]||{};lines.push(`${c} — ${r.role||''} — ${r.proof||''}`)}return lines.join('\n')}
 function downloadBlob(name,content,mime){let blob=new Blob([content],{type:mime}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500)}
 function downloadReport(){downloadBlob('AQUATICC_rapport_'+(state.names.replace(/[^a-z0-9]/gi,'_')||'binome')+'.txt',dumpText(),'text/plain;charset=utf-8')}
@@ -251,7 +251,7 @@ return {o,allAnswered,closeAnswered,good,medium,message,advice:adv.slice(0,4),mi
 }
 function evaluationPageV5(){let d=feedbackV5(),o=d.o,f=officialV5(),grade=f.complete?f.score:o.score;let speaker=f.complete?(grade>=14?'leroy':grade>=10?'elise':'ombre'):(d.good?'elise':d.medium?'tom':'ombre');let dialogue=f.complete?(grade>=14?'Rapport validé. Vos analyses sont solides et argumentées. Continuez à citer précisément les preuves.':grade>=10?'Votre analyse avance. Appuyez davantage vos conclusions sur les folios, et reprenez les points faibles ci-dessous.':'Oups… vous avez cru que le dossier allait se lire tout seul ? Retournez aux documents et prouvez ce que vous avancez. Élise vous indique la méthode juste après.'):(d.good?'Beau travail sur les défis ! Maintenant, vos justifications rédigées doivent être relues par le formateur.':d.medium?'La progression est réelle. Identifiez d’abord les documents liés aux réponses incorrectes.':'Aïe ! Le dossier ne valide pas vos suppositions. Retournez lire les pièces : un indice ne remplace jamais une preuve.');
 let advice=d.advice.length?d.advice:[{t:'Prochaine étape',advice:'Reprends une réponse rédigée par mission et vérifie qu’elle cite un document et un niveau de certitude.'}];
-return '<section class="evaluation-panel"><div class="eyebrow">BILAN FINAL · DOSSIER AQUATICC</div><h2>Évaluation et débrief personnalisé</h2><div class="eval-scores"><div><small>Score automatique provisoire</small><strong>'+o.score.toFixed(1).replace('.',',')+' / 20</strong><span>'+o.correct+' / '+o.total+' réponses objectives correctes</span></div><div><small>Note officielle du TP</small><strong>'+(f.complete?f.score.toFixed(1).replace('.',',')+' / 20':'À évaluer')+'</strong><span>Barème formateur : 4 + 5 + 5 + 4 + 2</span></div></div><p class="micro">Le score automatique est une conversion des '+o.miniTotal+' mini-défis et '+o.closedTotal+' questions fermées. Il ne tient pas compte de la qualité des analyses, des preuves ni du compte rendu. Les questions encore non résolues comptent comme non acquises dans ce score provisoire.</p>'+character(speaker,dialogue)+(speaker==='ombre'?character('elise',d.message):'<p class="eval-method">'+esc(d.message)+'</p>')+'<h3>Conseils prioritaires</h3><ul class="eval-advice">'+advice.map(a=>'<li><strong>'+esc(a.t)+'</strong> — '+esc(a.advice)+'</li>').join('')+'</ul><details class="formateur-grade"><summary>🔐 Espace formateur — renseigner la note finale /20</summary><p class="micro">Les notes saisies ci-dessous sont enregistrées uniquement dans le navigateur de cet appareil ; elles ne constituent pas une validation sécurisée d’identité.</p><div class="grade-grid">'+criteriaV5.map(c=>'<label>'+esc(c.label)+' <small>/'+c.max+'</small><input type="number" min="0" max="'+c.max+'" step="0.5" value="'+(v5.grades[c.id]??'')+'" onchange="gradeCriterion(\''+c.id+'\',this.value)" placeholder="—"></label>').join('')+'</div><label>Commentaire du formateur<textarea oninput="saveV5Comment(this.value)" placeholder="Observation complémentaire...">'+esc(v5.comment)+'</textarea></label></details><div class="actions"><button class="primary" onclick="downloadEvaluationV5()">↓ Télécharger mon bilan corrigé (.txt)</button><button class="secondary" onclick="printEvaluationV5()">⎙ Imprimer / Enregistrer en PDF</button></div></section>'
+return '<section class="evaluation-panel"><div class="eyebrow">BILAN FINAL · DOSSIER AQUATICC</div><h2>Évaluation et débrief personnalisé</h2><div class="eval-scores"><div><small>Score automatique provisoire</small><strong>'+o.score.toFixed(1).replace('.',',')+' / 20</strong><span>'+o.correct+' / '+o.total+' réponses objectives correctes</span></div><div><small>Note officielle du TP</small><strong>'+(f.complete?f.score.toFixed(1).replace('.',',')+' / 20':'À évaluer')+'</strong><span>Barème formateur : 4 + 5 + 5 + 4 + 2</span></div></div><p class="micro">Le score automatique est une conversion des '+o.miniTotal+' mini-défis et '+o.closedTotal+' questions fermées. Il ne tient pas compte de la qualité des analyses, des preuves ni du compte rendu. Les questions encore non résolues comptent comme non acquises dans ce score provisoire.</p>'+character(speaker,dialogue)+(speaker==='ombre'?character('elise',d.message):'<p class="eval-method">'+esc(d.message)+'</p>')+'<h3>Conseils prioritaires</h3><ul class="eval-advice">'+advice.map(a=>'<li><strong>'+esc(a.t)+'</strong> — '+esc(a.advice)+'</li>').join('')+'</ul><details class="formateur-grade"><summary>🔐 Espace formateur — renseigner la note finale /20</summary><p class="micro">Les notes saisies ci-dessous sont enregistrées uniquement dans le navigateur de cet appareil ; elles ne constituent pas une validation sécurisée d’identité.</p><div class="grade-grid">'+criteriaV5.map(c=>'<label>'+esc(c.label)+' <small>/'+c.max+'</small><input type="number" min="0" max="'+c.max+'" step="0.5" value="'+(v5.grades[c.id]??'')+'" onchange="gradeCriterion(\''+c.id+'\',this.value)" placeholder="—"></label>').join('')+'</div><label>Commentaire du formateur<textarea oninput="saveV5Comment(this.value)" placeholder="Observation complémentaire...">'+esc(v5.comment)+'</textarea></label></details><div class="actions"><button class="primary" onclick="downloadEvaluationPDF()">↓ Télécharger le bilan corrigé (PDF)</button><button class="secondary" onclick="printEvaluationV5()">⎙ Imprimer / Enregistrer en PDF</button></div></section>'
 }
 function correctionV5(){const f=officialV5(),d=feedbackV5();let lines=['AQUATICC — DOSSIER ROUGE','BILAN ET CORRECTION ARGUMENTÉE','Équipe : '+(state.names||'Non renseignée'),'Date : '+new Date().toLocaleString('fr-FR'),'','SCORE AUTOMATIQUE INDICATIF : '+d.o.score.toFixed(1)+'/20 ('+d.o.correct+'/'+d.o.total+' réponses objectives)','NOTE FINALE DU TP : '+(f.complete?f.score+'/20 — renseignée par le formateur':'À compléter par le formateur'),'Note : le score automatique ne corrige pas les réponses longues.',''];
 lines.push('BARÈME OFFICIEL');for(const c of criteriaV5){lines.push(c.label+' : '+(v5.grades[c.id]??'non évalué')+'/'+c.max)}lines.push('');if(v5.comment)lines.push('COMMENTAIRE FORMATEUR : '+v5.comment,'');
@@ -265,4 +265,75 @@ function downloadEvaluationV5(){downloadBlob('AQUATICC_BILAN_CORRIGE_'+(state.na
 function printEvaluationV5(){const w=window.open('','_blank');if(!w){alert('Autorisez les fenêtres pour imprimer le bilan.');return}w.document.write('<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>AQUATICC — Bilan corrigé</title><style>body{font:13px/1.5 Arial,sans-serif;padding:32px;white-space:pre-wrap;max-width:850px;margin:auto}</style></head><body>'+esc(correctionV5())+'</body></html>');w.document.close();w.focus();w.print()}
 const reportPageV4=reportPage;reportPage=function(){return reportPageV4()+evaluationPageV5()};
 const dumpTextV4=dumpText;dumpText=function(){return dumpTextV4()+'\n\n'+correctionV5()}
+</script><script>
+let aquaticcPdfPromise=null;
+async function aquaticcPdfLibrary(){
+ if(window.jspdf?.jsPDF)return window.jspdf.jsPDF;
+ if(aquaticcPdfPromise)return aquaticcPdfPromise;
+ aquaticcPdfPromise=(async()=>{
+  for(const url of ['https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js','https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js']){
+   try{await new Promise((ok,fail)=>{const e=document.createElement('script');e.src=url;e.onload=ok;e.onerror=fail;document.head.appendChild(e)});if(window.jspdf?.jsPDF)return window.jspdf.jsPDF}catch(e){}
+  }
+  throw new Error('Connexion nécessaire pour charger le moteur PDF.');
+ })();
+ try{return await aquaticcPdfPromise}finally{aquaticcPdfPromise=null}
+}
+function pdfSafe(x){return String(x??'').replace(/[’‘]/g,"'").replace(/[“”]/g,'"').replace(/[–—]/g,'-').replace(/→/g,' -> ').replace(/•/g,'-').replace(/✓/g,'OK').replace(/[\u{1F300}-\u{1FAFF}]/gu,'').replace(/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/g,'')}
+async function downloadEvaluationPDF(){
+ const buttons=[...document.querySelectorAll('button[onclick="downloadEvaluationPDF()"]')];
+ buttons.forEach(b=>{b.disabled=true;b.dataset.oldText=b.textContent;b.textContent='Génération du PDF…'});
+ try{
+  const Constructor=await aquaticcPdfLibrary();
+  const pdf=new Constructor({unit:'mm',format:'a4',compress:true});
+  const left=16,usable=178;let y=40,page=1;
+  function header(){
+   pdf.setFillColor(7,23,41);pdf.rect(0,0,210,29,'F');
+   pdf.setFillColor(231,70,78);pdf.rect(0,28,210,1.5,'F');
+   pdf.setTextColor(245,191,100);pdf.setFont('helvetica','bold');pdf.setFontSize(17);
+   pdf.text('AQUATICC - DOSSIER ROUGE',left,14);
+   pdf.setFont('helvetica','normal');pdf.setFontSize(9);pdf.setTextColor(218,229,240);
+   pdf.text('BTS ATI - Rapport, note et correction argumentee',left,23);
+  }
+  function footer(){
+   pdf.setDrawColor(196,213,221);pdf.line(left,281,194,281);
+   pdf.setFont('helvetica','normal');pdf.setFontSize(8);pdf.setTextColor(100,118,129);
+   pdf.text('Justifiez vos conclusions avec D01 a D13',left,287);
+   pdf.text('Page '+page,194,287,{align:'right'});
+  }
+  function next(){footer();pdf.addPage();page++;y=40;header()}
+  function ensure(n){if(y+n>277)next()}
+  function write(s,{size=9,bold=false,color=[31,51,66]}={}){
+   pdf.setFont('helvetica',bold?'bold':'normal');pdf.setFontSize(size);pdf.setTextColor(...color);
+   const lines=pdf.splitTextToSize(pdfSafe(s),usable),dy=size*.39+1.7;
+   for(const line of lines.length?lines:['']){ensure(dy+1);pdf.text(line,left,y);y+=dy}
+   y+=1.7;
+  }
+  function section(s){ensure(16);y+=3;pdf.setFillColor(18,50,73);pdf.roundedRect(left,y-5,usable,10,1,1,'F');pdf.setFontSize(11);pdf.setFont('helvetica','bold');pdf.setTextColor(246,197,112);pdf.text(pdfSafe(s).slice(0,88),left+4,y+1.7);y+=13}
+  header();
+  const o=objectiveV5(),official=officialV5(),fb=feedbackV5();
+  write('Binome : '+(state.names||'Non renseigne'),{size:11,bold:true});
+  write('Date : '+new Date().toLocaleDateString('fr-FR'));
+  section('SYNTHESE DES RESULTATS');
+  write('Score automatique indicatif : '+o.score.toFixed(1).replace('.',',')+'/20 ('+o.correct+'/'+o.total+' reponses)',{size:12,bold:true});
+  write('Note officielle : '+(official.complete?official.score.toFixed(1).replace('.',',')+'/20':'A completer par le formateur'),{size:12,bold:true,color:[150,58,61]});
+  write('Le score automatique couvre les mini-defis et questions fermees, et non les analyses redigees.');
+  section('DEBRIEF ET CONSEILS PERSONNALISES');
+  write(fb.message,{size:10,bold:true});
+  for(const a of fb.advice)write('- '+a.t+' : '+a.advice);
+  if(!fb.advice.length)write('Conseil : justifier chaque affirmation par un repere, un folio et un niveau de certitude.');
+  section('BAREME /20');
+  for(const c of criteriaV5)write(c.label+' : '+(v5.grades[c.id]??'non evalue')+' / '+c.max);
+  if(v5.comment)write('Commentaire du formateur : '+v5.comment,{bold:true});
+  section('CORRECTION DETAILLEE');
+  let inDetail=false;
+  for(const line of correctionV5().split('\n')){
+   if(line.startsWith('CORRECTION DES QUESTIONS FERMÉES')||line.startsWith('CORRECTION ARGUMENTÉE DES 24')||line.startsWith('QUESTIONS RÉDIGÉES')||line==='RAPPORT PROFESSIONNEL'){inDetail=true;section(line);continue}
+   if(!inDetail)continue;
+   write(line,{size:8.8,bold:/^(Q\d+|Défi \d+|Réponse attendue|Justification|Résultat)/.test(line)});
+  }
+  footer();
+  pdf.save('AQUATICC_BILAN_CORRIGE_'+(state.names.replace(/[^a-z0-9]/gi,'_')||'binome')+'.pdf');
+ }catch(e){alert('Erreur lors de la génération du PDF : '+e.message)}
+ finally{buttons.forEach(b=>{b.disabled=false;b.textContent=b.dataset.oldText||'Exporter le PDF'})}
+}
 </script></body></html>
